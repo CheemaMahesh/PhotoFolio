@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+
 import './App.css';
+import {useEffect} from "react"
+
+import Album from './Album';
 
 function App() {
+  useEffect(()=>{
+    document.title="PhotoFolio"
+  },[])
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <div className="Header">
+      <img src="https://cdn.pixabay.com/photo/2018/08/03/16/24/camera-3582217_640.png"/>
+      <h1>PhotoFolio</h1>
+     </div>
+     <Album/>
     </div>
   );
 }
