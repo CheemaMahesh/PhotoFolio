@@ -151,3 +151,23 @@ button{
   width:100px;
   font-size: 1em;
 }
+.Album-Display{
+  background-color: #3498db;
+  width: 1000px;
+  margin-left: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* overflow: wrap; */
+  /* flex-wrap: wrap; */
+  /* height: auto; */
+}
+.data-div{
+  height:100px;
+  width: 200px;
+  background-color: whitesmoke;
+  /* overflow: hidden; */
+  border: 1px solid black;
+
+  
+}
