@@ -53,7 +53,7 @@
 .Album{
   display: flex;
   flex-direction: column;
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
   justify-content: center;
 }
 .Album .form{
@@ -126,13 +126,12 @@
   font-size: 1.5rem;
 }
 .clear{
-  background-color: #c4300b;
+  background-color:red;
   /* padding: 10px 20px; */
   border-radius: 5px;
   cursor: pointer;
   height:40px;
   width:100px;
-
 }
 .create{
   background-color: rgb(26, 222, 26);
@@ -141,9 +140,7 @@
   cursor: pointer;
   height:40px;
   font-family: 'Times New Roman', Times, serif;
-  width:100px;
-
-  
+  width:100px; 
 }
 button{
   font-weight: bold;
@@ -152,22 +149,96 @@ button{
   font-size: 1em;
 }
 .Album-Display{
-  background-color: #3498db;
+  /* background-color: #3498db; */
   width: 1000px;
-  margin-left: 300px;
+  margin-left: 350px;
+  display: flex;
+  /* overflow-x: wrap; */
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.Album-Display div{
+  width: 19%;
+  height:200px;
+  background-color:cornsilk;
+  border: 2px solid black;
+  margin-top: 10px;
+  box-shadow: 0px 4px 8px rgba(140, 127, 127, 0.1); 
+  border-radius: 1rem;
+  overflow: hidden;
+
+}
+.data-div:hover{
+  /* background-image: linear-gradient(to right ,rgb(15, 15, 238),green); */
+  background-color: rgb(246, 229, 229);
+    cursor: pointer;
+
+}
+.Album-Display div img{
+  height:100px;
+  width:100%;
+}
+.Album-Display div h1{
+  overflow: hidden;
+  font-size: 1.5rem;
+
+}
+
+/* ==================================================================Album-Top-page================================= */
+.pageHeading{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.goBack img{
+  height:50px;
+  width:50px;
+  cursor: pointer;
+
+}
+.I-Bodys{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.I-Bodys input{
+  height:40px;
+  width: 350px;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+}
+.I-Bodys input::placeholder{
+  font-size: 1.5rem;
+}
+
+
+.buttonsDiv{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* overflow: wrap; */
-  /* flex-wrap: wrap; */
-  /* height: auto; */
-}
-.data-div{
-  height:100px;
-  width: 200px;
-  background-color: whitesmoke;
-  /* overflow: hidden; */
-  border: 1px solid black;
-
   
 }
+.buttonsDiv button:nth-child(2){
+margin-left: 100px;
+}
+.addUrl{
+  /* background-color: #eff2f6; */
+  height: 200px;
+  width: 100%;;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.I-Bodys{
+  background-color: #eff2f6;
+height:100%;
+width: 500px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-around;
+border-radius: 1rem;
+}
+
