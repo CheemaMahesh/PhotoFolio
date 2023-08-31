@@ -120,6 +120,13 @@ export default function Album(){
                  titleRef.current.focus();
             }
 
+            function handlePageAdd(){
+                setImages([...images,dImage]);
+                console.log(images[0]);
+                 setDimage({name:"", url:""});
+                 titleRef.current.focus();
+            }
+
             
 
     
@@ -141,7 +148,7 @@ export default function Album(){
 />
 
            <div className="buttonsDiv"> <button className="clear" onClick={handlePageClear}>Clear</button>
-            <button className="create" onClick={handleAdd}>Create</button></div>
+            <button className="create"  onClick={handlePageAdd}>Create</button></div>
         </div>
                 </div>}
             <div className="pageHeading">
@@ -152,9 +159,14 @@ export default function Album(){
                             <div className="add-img" ><button className={clAddBtn} onClick={handleAddImage}>{addForm?"Add image":"Cancle"}</button></div>
                     </div>  
             </div>
-            <div className="pageBody">
+           <div className="pageBody">
+    {images.map((data, i) => (
+        <div key={i}>
+            <img src={data.url} alt={data.name} />
+        </div>
+    ))}
+</div>
 
-            </div>
         
         </div>):(<div className="Album">
 
@@ -181,14 +193,16 @@ export default function Album(){
                         
             </div>
             <div className="Album-Display">{Albums
-            .sort((a, b) => a.title.localeCompare(b.title)) // Sort albums alphabetically
-            .map((data) => (
-                <div key={data.id} className="data-div" onClick={(e)=>{handlePage(data.id)}}>
-                    <img src="https://img.icons8.com/?size=512&id=97658&format=png" alt="album-i"/>
-                    <h1>{data.title}</h1>
-                    {/* <button className="cancleButton" value={data.id} onClick={(e) => { deleteAlbum(data.id) }}>Delete</button> */}
-                </div>
-            ))}</div>
+    .filter((data) => data.title) // Filter out items without a title
+    .sort((a, b) => (a.title || '').localeCompare(b.title || '')) // Sort albums alphabetically
+    .map((data) => (
+        <div key={data.id} className="data-div" onClick={(e)=>{handlePage(data.id)}}>
+            <img src="https://img.icons8.com/?size=512&id=97658&format=png" alt="album-i"/>
+            <h1>{data.title}</h1>
+        </div>
+    ))}
+</div>
+
         </div>)}</>)
 }
 
