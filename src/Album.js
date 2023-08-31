@@ -16,7 +16,7 @@ export default function Album(){
     const [clAddBtn,setCladd]=useState("addButton");
 
     // ================single page variales=======================
-    const [dImage,seDimage]=useState();
+    const [dImage,setDimage]=useState({name:"", url:""});
     const [images,setImages]=useState([]);
     
 
@@ -89,6 +89,7 @@ export default function Album(){
             }
             function handlePageT(){
                 setFormd(false);
+                
             }
             
             
@@ -113,15 +114,33 @@ export default function Album(){
                 }
             }
 
+            function handlePageClear(){
+                setDimage({name:"", url:""});
+                console.log("handlePageClear");
+                 titleRef.current.focus();
+            }
+
             
 
     
             return(<>{formD?( <div className="Album-Top-page">
                {addForm?null:<div className="addUrl">
                <div className="I-Bodys">
-        <input placeholder=" Title" ref={titleRef} required/>
-        <input placeholder=" Image URL"  required />
-           <div className="buttonsDiv"> <button className="clear" onClick={handleClear}>Clear</button>
+        <input
+    placeholder=" Title"
+    ref={titleRef}
+    required
+    value={dImage.name}  
+    onChange={(e) => setDimage({ ...dImage, name: e.target.value })}  
+/>
+<input
+    placeholder=" Image URL"
+    required
+    value={dImage.url}  
+    onChange={(e) => setDimage({ ...dImage, url: e.target.value })}  
+/>
+
+           <div className="buttonsDiv"> <button className="clear" onClick={handlePageClear}>Clear</button>
             <button className="create" onClick={handleAdd}>Create</button></div>
         </div>
                 </div>}
