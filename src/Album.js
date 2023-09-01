@@ -159,22 +159,22 @@ export default function Album(){
             }
 
             // =======================Rendering images of Album
+            let rr=getAlbumTitle;
             useEffect(() => {
-                const unsubscribe = onSnapshot(
-                  collection(db, `photofolio/${pageTitleRef.current}/photofolic`),
+                
+                onSnapshot( collection(db, `photofolio/${pageTitleRef.current}/photofolic`),
                   (snapShot) => {
                     const ims = snapShot.docs.map((doc) => ({
                       id: doc.id,
                       ...doc.data(),
                     }));
+                    console.log(ims,`${rr}This data belongs to ims`);
                     setImages(ims); // Set images directly without merging
-                    console.log(ims, "======imagesssssssss");
                   }
                 );
               
-                // Return a cleanup function to unsubscribe from the snapshot listener
-                return () => unsubscribe();
-              }, []); // Include pageTitle as a dependency
+               
+              }, [pageTitle]); // Include pageTitle as a dependency
             
 
             
