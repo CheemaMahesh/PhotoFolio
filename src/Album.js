@@ -18,6 +18,9 @@ export default function Album(){
     // ================single page variales=======================
     const [dImage,setDimage]=useState({name:"", url:""});
     const [images,setImages]=useState([]);
+    const [imgTes,setImgTest]=useState("");
+    const pageTitleRef = useRef(null);
+
     
 
     
@@ -80,12 +83,18 @@ export default function Album(){
                 
             }
 
-            // ==============handlePages
+            // ==============handlePages-
             function handlePage(i){
-                console.log("handlePage",i);
-                setPageTitle(i);
-                setFormd(true);
-                console.log(pageTitle);
+                // console.log("handlePage",i);
+                // setPageTitle(i);
+                // setFormd(true);
+                // console.log(pageTitle,"====pageTitle======");
+
+                
+                    pageTitleRef.current = i;
+                    setPageTitle(i);
+                    setFormd(true);
+                  
             }
             function handlePageT(){
                 setFormd(false);
@@ -98,6 +107,10 @@ export default function Album(){
                 const selectedAlbum = Albums.find((album) => album.id === pageTitle);
                 // console.log(selectedAlbum);
                 return selectedAlbum ? selectedAlbum.title : ""; // Get the title
+            }
+            function getAlbumId(){
+                const selectedAlbum=Album.find((album)=>album.id===pageTitle);
+                return selectedAlbum?selectedAlbum.id:null;
             }
 
             function handleAddImage(){
@@ -120,12 +133,49 @@ export default function Album(){
                  titleRef.current.focus();
             }
 
-            function handlePageAdd(){
-                setImages([...images,dImage]);
-                console.log(images[0]);
-                 setDimage({name:"", url:""});
-                 titleRef.current.focus();
+
+            // =================Add images==================
+           async  function handlePageAdd(){
+               
+                //  ===============================
+
+                try {
+                    const docRef = doc(collection(db, `photofolio/${pageTitle}/photofolioc`));
+            
+                  const mahi=  await setDoc(docRef, {
+                        name: dImage.name,
+                        url:dImage.url,
+                        createdOn: new Date()
+                    });
+                    console.log(mahi,"Try catch handlePageAdd");
+                    setImages([...images,dImage]);
+                    console.log(images[0]);
+                     setDimage({name:"", url:""});
+                     titleRef.current.focus();
+    
+                } catch (error) {
+                    console.error("Error adding album-Images:", error);
+                }
             }
+
+            // =======================Rendering images of Album
+            useEffect(() => {
+                const unsubscribe = onSnapshot(
+                  collection(db, `photofolio/${pageTitleRef.current}/photofolic`),
+                  (snapShot) => {
+                    const ims = snapShot.docs.map((doc) => ({
+                      id: doc.id,
+                      ...doc.data(),
+                    }));
+                    setImages(ims); // Set images directly without merging
+                    console.log(ims, "======imagesssssssss");
+                  }
+                );
+              
+                // Return a cleanup function to unsubscribe from the snapshot listener
+                return () => unsubscribe();
+              }, []); // Include pageTitle as a dependency
+            
 
             
 
@@ -160,11 +210,24 @@ export default function Album(){
                     </div>  
             </div>
            <div className="pageBody">
+
+           
     {images.map((data, i) => (
-        <div key={i}>
-            <img src={data.url} alt={data.name} />
+        <div key={data.id}>
+            <img
+                src={data.url}
+                alt={data.name}
+                onError={(e) => {
+                    console.error("Error loading image:", {e});
+                }}
+                
+            />
         </div>
     ))}
+
+
+           
+
 </div>
 
         
