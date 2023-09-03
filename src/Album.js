@@ -2,6 +2,8 @@ import {useState,useEffect,useRef} from "react";
 import {db} from "./FirebaseInit";
 import { collection,doc,setDoc,onSnapshot ,deleteDoc} from "firebase/firestore";
 
+
+//Album function
 export default function Album(){
   
     const [AlbumN, setAlbum] = useState(""); 
