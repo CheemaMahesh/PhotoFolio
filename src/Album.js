@@ -3,8 +3,8 @@ import {db} from "./FirebaseInit";
 import { collection,doc,setDoc,onSnapshot ,deleteDoc} from "firebase/firestore";
 
 export default function Album(){
-    // const [AlbumN,setAlbum]=useState();
-    const [AlbumN, setAlbum] = useState(""); // Initialize with undefined
+  
+    const [AlbumN, setAlbum] = useState(""); 
 
     const [Albums,setAlbums]=useState([]);
     const [btnD,setBtnd]=useState(false);
@@ -12,39 +12,41 @@ export default function Album(){
     const [addForm,setAddform]=useState(true);
     const [pageTitle,setPageTitle]=useState(null);
     const titleRef = useRef(null);
-    //  let clAddBtn="";
+    
     const [clAddBtn,setCladd]=useState("addButton");
-
     // ================single page variales=======================
     const [dImage,setDimage]=useState({name:"", url:""});
     const [images,setImages]=useState([]);
-    const [imgTes,setImgTest]=useState("");
     const pageTitleRef = useRef(null);
 
     
 
-    
+   //========================For focus 
     useEffect(() => {
         if (btnD||!addForm) {
           titleRef.current.focus();
         }
       }, []);
 
+    
+// ==================To show the Form
             const handleAlbum=(e)=>{
                 e.preventDefault();
-                console.log("handleAlbum");
 
                 setBtnd(true);
             }
+ // =============to hide Album
             const handleCAlbum=(e)=>{
                 e.preventDefault();
                 setBtnd(false);
             }
+// ==============To  clear the input fields
             const handleClear=(e)=>{
                 e.preventDefault();
                 titleRef.current.focus();
                 setAlbum("");
             }
+// =============To add an Album to the list
             async function handleAdd(e) {
                 e.preventDefault();
                 try {
@@ -64,6 +66,8 @@ export default function Album(){
                 }
             }
 
+
+// ================To Collect real-time data
             useEffect(()=>{
                 onSnapshot(collection(db,"photofolio"),(snapShot)=>{
                     const blogs = snapShot.docs.map((doc) => {
@@ -77,18 +81,17 @@ export default function Album(){
             });
             },[Albums]);
 
+
+// To Delete an Album (but have not used so far)
             async function deleteAlbum(i){
                 const docRef=doc(db,"photofolio",i);
                 deleteDoc(docRef);
                 
             }
 
-            // ==============handlePages-
+ // ==============handlePages- to show the particular page
             function handlePage(i){
-                // console.log("handlePage",i);
-                // setPageTitle(i);
-                // setFormd(true);
-                // console.log(pageTitle,"====pageTitle======");
+              
 
                 
                     pageTitleRef.current = i;
@@ -96,6 +99,7 @@ export default function Album(){
                     setFormd(true);
                   
             }
+
             function handlePageT(){
                 setFormd(false);
                 
@@ -108,33 +112,29 @@ export default function Album(){
                 // console.log(selectedAlbum);
                 return selectedAlbum ? selectedAlbum.title : ""; // Get the title
             }
-            function getAlbumId(){
-                const selectedAlbum=Album.find((album)=>album.id===pageTitle);
-                return selectedAlbum?selectedAlbum.id:null;
-            }
+            
 
+// ==================To show the Form to add url
             function handleAddImage(){
                 const mahi=!addForm;
                 setAddform(mahi);
                 if(addForm){
                     setCladd("cancleButton");
-                    console.log("cancleButton",addForm)
 
                 }else{
                     
                     setCladd("addButton");
-                    console.log("addButton",addForm)
                 }
             }
 
+// =========== To clear the input fields
             function handlePageClear(){
                 setDimage({name:"", url:""});
-                console.log("handlePageClear");
                  titleRef.current.focus();
             }
 
 
-            // =================Add images==================
+ // =================Add images to the Database
            async  function handlePageAdd(){
                
                 //  ===============================
@@ -147,7 +147,6 @@ export default function Album(){
                         url:dImage.url,
                         createdOn: new Date()
                     });
-                    console.log(mahi,"Try catch handlePageAdd");
                     setImages([...images,dImage]);
                     console.log(images[0]);
                      setDimage({name:"", url:""});
@@ -160,6 +159,8 @@ export default function Album(){
 
             // =======================Rendering images of Album
             let rr=getAlbumTitle;
+
+// =====================To collect data from Database of images of a perticular Album
             useEffect(() => {
                 
                 onSnapshot( collection(db, `photofolio/${pageTitleRef.current}/photofolic`),
@@ -168,7 +169,6 @@ export default function Album(){
                       id: doc.id,
                       ...doc.data(),
                     }));
-                    console.log(ims,`${rr}This data belongs to ims`);
                     setImages(ims); // Set images directly without merging
                   }
                 );
@@ -180,7 +180,9 @@ export default function Album(){
             
 
     
-            return(<>{formD?( <div className="Album-Top-page">
+            return(<>{formD?( 
+// ====================================================UI to show the Page of an Album========================================================
+            <div className="Album-Top-page">
                {addForm?null:<div className="addUrl">
                <div className="I-Bodys">
         <input
@@ -213,7 +215,7 @@ export default function Album(){
 
            
     {images.map((data, i) => (
-        <div key={data.id}>
+        <div key={i}>
             <img
                 src={data.url}
                 alt={data.name}
@@ -231,7 +233,9 @@ export default function Album(){
 </div>
 
         
-        </div>):(<div className="Album">
+        </div>):(
+//  ================================================================UI To show the Home page====================================================================
+        <div className="Album">
 
             <div className="AddDiv">
             {btnD?<div className="albumAddForm">
